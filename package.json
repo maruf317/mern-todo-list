@@ -1,0 +1,19 @@
+{
+  "name": "mern-todo-list",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maruf317/mern-todo-list.git"
+  },
+  "author": "Maruf Aziz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maruf317/mern-todo-list/issues"
+  },
+  "homepage": "https://github.com/maruf317/mern-todo-list#readme"
+}
