@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "client": "npm start --prefix frontend",
+    "server": "npm start --prefix backend",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "repository": {
     "type": "git",
@@ -15,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/maruf317/mern-todo-list/issues"
   },
-  "homepage": "https://github.com/maruf317/mern-todo-list#readme"
+  "homepage": "https://github.com/maruf317/mern-todo-list#readme",
+  "dependencies": {
+    "concurrently": "^8.0.1"
+  }
 }
