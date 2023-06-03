@@ -1,42 +1,49 @@
-import React, { Component, useState } from 'react';
-import { Container, ListGroup, ListGroupButton, Button, ListGroupItem } from 'reactstrap';
+import React, { useEffect } from 'react';
+import { Container, ListGroup, Button, ListGroupItem } from 'reactstrap';
 import {CSSTransition, TransitionGroup } from 'react-transition-group';
-import {v4 as  uuid} from 'uuid';
+import { connect } from 'react-redux';
+import { getItems, deleteItem } from '../actions/itemActions';
+import { PropTypes } from 'prop-types';
 
 function TodoList(props) {
 
-    const [list, setList] = useState([
-        { id: uuid(), name: 'Eggs' },
-        { id: uuid(), name: 'Milk' },
-        { id: uuid(), name: 'Bread' },
-        { id: uuid(), name: 'Meat' }]);
+    useEffect(() => {
+        props.getItems();
+    }, []);
 
+    function onDeleteClick(id) {
+        props.deleteItem(id);
+    };
+
+    const { items } = props.item;
     function getTodoList() {
         return (
             <Container>
-                <Button 
+                {/* <Button 
                 color="dark"
                 style={{marginBottom: '2rem'}}
                 onClick={() => {
                     const name = prompt('Enter Item');
                     if(name) {
-                        setList([...list, { id: uuid(), name}]);
+                        setList((items) => ([...items, { id: uuid(), name}]));
+                        // let newValue = { id: uuid(), name: name };
+                        // setListObject(listObject => ({
+                        //     ...listObject,
+                        //     ...newValue
+                        // }));
                     }
                 }}
-                >Add Item</Button>
-
+                >Add Item</Button> */}
                 <ListGroup>
                     <TransitionGroup className="todo-list">
-                        {list.map(({ id, name}) => (
+                        {items.map(({ id, name}) => (
                             <CSSTransition key={id} timeout={500} classNames="fade">
                                 <ListGroupItem>
                                     <Button
                                         className="remove-btn"
                                         color="danger"
                                         size="sm"   
-                                        onClick={() => {
-                                            setList(list => list.filter(item => item.id !== id))
-                                        }}
+                                        onClick={() => onDeleteClick(id)}
                                     >&times;</Button>
                                     {name}
                                 </ListGroupItem>
@@ -51,4 +58,17 @@ function TodoList(props) {
     return getTodoList();
 }
 
-export default TodoList;
+
+TodoList.propTypes = {
+    getItems: PropTypes.func.isRequired,
+    item: PropTypes.object.isRequired
+}
+
+const mapStateToProps = (state) => ({
+    item: state.item
+});
+
+export default connect(
+    mapStateToProps,
+    { getItems, deleteItem }
+)(TodoList);
