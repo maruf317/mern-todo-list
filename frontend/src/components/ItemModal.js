@@ -3,7 +3,7 @@
  * The modal provides a nice pop-up form for the user to fill in. 
  */
 
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import {
     Button,
     Modal,
@@ -17,7 +17,6 @@ import {
 
 import { connect } from 'react-redux';
 import { addItem } from '../actions/itemActions';
-import { v4 as uuid } from 'uuid';
 
 function ItemModal(props) {
 
@@ -36,10 +35,8 @@ function ItemModal(props) {
     function onSubmit(e) {
         e.preventDefault();
         const newItem = {
-            id: uuid(),
             name: name
         };
-        console.log(`My name is: ${name}`)
         props.addItem(newItem);
         // Close the modal
         toggle();

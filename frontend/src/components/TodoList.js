@@ -19,31 +19,16 @@ function TodoList(props) {
     function getTodoList() {
         return (
             <Container>
-                {/* <Button 
-                color="dark"
-                style={{marginBottom: '2rem'}}
-                onClick={() => {
-                    const name = prompt('Enter Item');
-                    if(name) {
-                        setList((items) => ([...items, { id: uuid(), name}]));
-                        // let newValue = { id: uuid(), name: name };
-                        // setListObject(listObject => ({
-                        //     ...listObject,
-                        //     ...newValue
-                        // }));
-                    }
-                }}
-                >Add Item</Button> */}
                 <ListGroup>
                     <TransitionGroup className="todo-list">
-                        {items.map(({ id, name}) => (
-                            <CSSTransition key={id} timeout={500} classNames="fade">
+                        {items.map(({ _id, name}) => (
+                            <CSSTransition key={_id} timeout={500} classNames="fade">
                                 <ListGroupItem>
                                     <Button
                                         className="remove-btn"
                                         color="danger"
                                         size="sm"   
-                                        onClick={() => onDeleteClick(id)}
+                                        onClick={() => onDeleteClick(_id)}
                                     >&times;</Button>
                                     {name}
                                 </ListGroupItem>
