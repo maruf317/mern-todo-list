@@ -1,13 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-
-const items = require('./routes/api/items');
 
 const app = express();
 
 // Bodyparser middleware
-app.use(bodyParser.json());
+app.use(express.json());
 
 // DB config
 const db = require('./config/database_connection').mongoURI;
@@ -22,7 +19,8 @@ mongoose
 // Tell app to route any request that is of the form
 // api/items/* to be handled by the code in items (second arg) file
 // ie anyting that goes to api/items should refer to the "items" variable
-app.use('/api/items', items);
+app.use('/api/items', require('./routes/api/items'));
+app.use('/api/users', require('./routes/api/users'));
 
 const port = process.env.PORT || 5000;
 
