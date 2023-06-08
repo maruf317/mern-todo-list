@@ -48,7 +48,7 @@ router.post('/', (req, res) => {
                             // Save returns user object, return only some information
                             // i.e. don't send the hashed password as part of the response.
 
-                            // jwt sign to generate token from payload information
+                            // jwt sign to generate token from payload, jwtSecret and expiry
                             // payload here is { id: user.id }
                             jwt.sign(
                                 { id: user.id },
