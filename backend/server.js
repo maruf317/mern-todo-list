@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const config = require('config');
 
 const app = express();
 
@@ -7,7 +8,7 @@ const app = express();
 app.use(express.json());
 
 // DB config
-const db = require('./config/database_connection').mongoURI;
+const db = config.get('mongoUri');
 
 // Connect to mongo
 mongoose

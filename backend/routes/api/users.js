@@ -1,7 +1,9 @@
 const express = require('express');
 const { Model } = require('mongoose');
 const router = express.Router();
-const bcrypt = require('bcryptjs');``
+const bcrypt = require('bcryptjs');
+const config = require('config');
+const jwt = require ('jsonwebtoken');
 
 // User Model
 const User = require('../../models/User');
@@ -45,18 +47,29 @@ router.post('/', (req, res) => {
                         .then(user => {
                             // Save returns user object, return only some information
                             // i.e. don't send the hashed password as part of the response.
-                            res.json({
-                                user: {
-                                    id: user.id,
-                                    name: user.name,
-                                    email: user.email
+
+                            // jwt sign to generate token from payload information
+                            // payload here is { id: user.id }
+                            jwt.sign(
+                                { id: user.id },
+                                config.get('jwtSecret'),
+                                { expiresIn: 3600 },
+                                (err, token) => {
+                                    if(err) throw err;
+                                    res.json({
+                                        token,
+                                        user: {
+                                            id: user.id,
+                                            name: user.name,
+                                            email: user.email
+                                        }
+                                    });
                                 }
-                            });
+                            );
                         });
                 });
             });
     });
-
 });
 
 module.exports = router;
