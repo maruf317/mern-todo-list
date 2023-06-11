@@ -1,6 +1,6 @@
 const express = require('express');
-const { Model } = require('mongoose');
 const router = express.Router();
+const auth = require('../../middleware/auth.js');
 
 // Item Model
 const Item = require('../../models/Item');
@@ -16,8 +16,9 @@ router.get('/', (req, res) => {
 
 // @route POST api/items
 // @desc Create An Item
-// @access Public
-router.post('/', (req, res) => {
+// @access Private
+// Request header expects user token, item name.
+router.post('/', auth, (req, res) => {
     const newItem = new Item({
         name: req.body.name
     });
@@ -29,8 +30,9 @@ router.post('/', (req, res) => {
 
 // @route DELETE api/items/:id
 // @desc Delete An Item
-// @access Public
-router.delete('/:id', (req, res) => {
+// @access Private
+// Request header expects user token, item uuid in mongo.
+router.delete('/:id', auth, (req, res) => {
     Item.findByIdAndRemove(req.params.id)
         .then(res.json({ success: true }))
         .catch(err => res.status(404).json({success: false}));

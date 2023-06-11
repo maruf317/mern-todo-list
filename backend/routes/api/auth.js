@@ -1,9 +1,9 @@
 const express = require('express');
-const { Model } = require('mongoose');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const config = require('config');
 const jwt = require ('jsonwebtoken');
+const auth = require('../../middleware/auth.js');
 
 // User model
 const User = require('../../models/User');
@@ -52,6 +52,20 @@ router.post('/', (req, res) => {
                     );
                 })
     });
+});
+
+// @route   GET api/auth/user
+// @desc    Get User
+// @access  Private
+// Request header expects user token.
+router.get('/user', auth, (req, res) => {
+    // Validate user with token.
+    // Drop the password before returning the user object.
+    User.findById(req.user.id)
+        .select('-password')
+        .then(user => {
+            res.json(user);
+        })
 });
 
 module.exports = router;
